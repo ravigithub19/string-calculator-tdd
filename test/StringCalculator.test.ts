@@ -30,4 +30,9 @@ describe('StringCalculator', () => {
     expect(calculator.add('1\n2,3')).to.equal(6)
     expect(calculator.add('4\n5\n6')).to.equal(15)
   })
+
+  it('should support custom delimiter defined at the start', () => {
+    expect(calculator.add('//;\n1;2')).to.equal(3)
+    expect(calculator.add('//#\n2#3#4')).to.equal(9)
+  })
 })
