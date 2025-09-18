@@ -53,4 +53,10 @@ describe('StringCalculator', () => {
       'negative numbers not allowed -4',
     )
   })
+
+  it('should ignore numbers bigger than 1000', () => {
+    expect(calculator.add('2,1001')).to.equal(2)
+    expect(calculator.add('1000,1001,3')).to.equal(1003)
+    expect(calculator.add('500,600,2000')).to.equal(1100)
+  })
 })

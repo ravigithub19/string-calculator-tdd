@@ -31,6 +31,9 @@ export class StringCalculator {
       throw new Error(`negative numbers not allowed ${negatives.join(',')}`)
     }
 
-    return nums.reduce((sum, n) => sum + n, 0)
+    // Ignore numbers greater than 1000
+    const validNums = nums.filter((n) => n <= 1000)
+
+    return validNums.reduce((sum, n) => sum + n, 0)
   }
 }
