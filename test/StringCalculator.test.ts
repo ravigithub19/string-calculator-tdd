@@ -19,4 +19,10 @@ describe('StringCalculator', () => {
   it('should return the sum of two numbers', () => {
     expect(calculator.add('1,5')).to.equal(6)
   })
+
+  it('should return the sum of multiple numbers', () => {
+    expect(calculator.add('1,2,3')).to.equal(6)
+    expect(calculator.add('10,20,30,40')).to.equal(100)
+    expect(calculator.add('4,5,6,7,8,9')).to.equal(39)
+  })
 })
