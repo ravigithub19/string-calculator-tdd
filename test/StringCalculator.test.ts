@@ -25,4 +25,9 @@ describe('StringCalculator', () => {
     expect(calculator.add('10,20,30,40')).to.equal(100)
     expect(calculator.add('4,5,6,7,8,9')).to.equal(39)
   })
+
+  it('should handle new lines between numbers', () => {
+    expect(calculator.add('1\n2,3')).to.equal(6)
+    expect(calculator.add('4\n5\n6')).to.equal(15)
+  })
 })
