@@ -35,4 +35,22 @@ describe('StringCalculator', () => {
     expect(calculator.add('//;\n1;2')).to.equal(3)
     expect(calculator.add('//#\n2#3#4')).to.equal(9)
   })
+
+  it('should throw an exception for a single negative number', () => {
+    expect(() => calculator.add('1,-2,3')).to.throw(
+      'negative numbers not allowed -2',
+    )
+  })
+
+  it('should throw an exception for multiple negative numbers', () => {
+    expect(() => calculator.add('1,-2,-5,3')).to.throw(
+      'negative numbers not allowed -2,-5',
+    )
+  })
+
+  it('should throw an exception even with custom delimiters if negatives exist', () => {
+    expect(() => calculator.add('//;\n2;3;-4')).to.throw(
+      'negative numbers not allowed -4',
+    )
+  })
 })
