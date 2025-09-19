@@ -59,4 +59,10 @@ describe('StringCalculator', () => {
     expect(calculator.add('1000,1001,3')).to.equal(1003)
     expect(calculator.add('500,600,2000')).to.equal(1100)
   })
+
+  it('should support delimiters of any length', () => {
+    expect(calculator.add('//[***]\n1***2***3')).to.equal(6)
+    expect(calculator.add('//[abc]\n4abc5abc6')).to.equal(15)
+    expect(calculator.add('//[---]\n10---20---30')).to.equal(60)
+  })
 })

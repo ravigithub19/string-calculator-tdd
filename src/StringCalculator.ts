@@ -5,25 +5,35 @@ export class StringCalculator {
     let delimiterPattern = /,|\n/ // default delimiters: comma or newline
     let numbersSection = numbers
 
-    // Check for custom delimiter syntax: //delimiter\nnumbers
+    // Check for custom delimiter syntax: //[...]<newline>
     if (numbers.startsWith('//')) {
       const parts = numbers.split('\n')
       const delimiterLine = parts[0].substring(2) // remove leading "//"
-      numbersSection = parts.slice(1).join('\n') // rest is numbers
+      numbersSection = parts.slice(1).join('\n')
 
-      // Escape regex special characters in custom delimiter
-      const escapedDelimiter = delimiterLine.replace(
-        /[.*+?^${}()|[\]\\]/g,
-        '\\$&',
-      )
-      delimiterPattern = new RegExp(escapedDelimiter, 'g') // global flag ensures all occurrences are split
+      if (delimiterLine.startsWith('[') && delimiterLine.endsWith(']')) {
+        // Extract the delimiter inside [ ]
+        const delimiter = delimiterLine.slice(1, -1)
+        const escapedDelimiter = delimiter.replace(
+          /[.*+?^${}()|[\]\\]/g,
+          '\\$&',
+        )
+        delimiterPattern = new RegExp(escapedDelimiter, 'g')
+      } else {
+        // fallback for single char delimiter
+        const escapedDelimiter = delimiterLine.replace(
+          /[.*+?^${}()|[\]\\]/g,
+          '\\$&',
+        )
+        delimiterPattern = new RegExp(escapedDelimiter, 'g')
+      }
     }
 
     // Split numbers and convert to integers
     const nums = numbersSection
       .split(delimiterPattern)
       .map((n) => parseInt(n, 10))
-      .filter((n) => !isNaN(n)) // ignore empty strings
+      .filter((n) => !isNaN(n))
 
     // Throw error if there are negative numbers
     const negatives = nums.filter((n) => n < 0)
