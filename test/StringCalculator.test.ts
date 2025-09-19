@@ -65,4 +65,10 @@ describe('StringCalculator', () => {
     expect(calculator.add('//[abc]\n4abc5abc6')).to.equal(15)
     expect(calculator.add('//[---]\n10---20---30')).to.equal(60)
   })
+
+  it('should support multiple custom delimiters', () => {
+    expect(calculator.add('//[*][%]\n1*2%3')).to.equal(6)
+    expect(calculator.add('//[##][@@]\n4##5@@6')).to.equal(15)
+    expect(calculator.add('//[--][**][%%]\n1--2**3%%4')).to.equal(10)
+  })
 })

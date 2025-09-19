@@ -5,22 +5,21 @@ export class StringCalculator {
     let delimiterPattern = /,|\n/ // default delimiters: comma or newline
     let numbersSection = numbers
 
-    // Check for custom delimiter syntax: //[...]<newline>
+    // Check for custom delimiter syntax: //delimiter\nnumbers
     if (numbers.startsWith('//')) {
       const parts = numbers.split('\n')
       const delimiterLine = parts[0].substring(2) // remove leading "//"
       numbersSection = parts.slice(1).join('\n')
 
       if (delimiterLine.startsWith('[') && delimiterLine.endsWith(']')) {
-        // Extract the delimiter inside [ ]
-        const delimiter = delimiterLine.slice(1, -1)
-        const escapedDelimiter = delimiter.replace(
-          /[.*+?^${}()|[\]\\]/g,
-          '\\$&',
-        )
-        delimiterPattern = new RegExp(escapedDelimiter, 'g')
+        // Handle one or more delimiters enclosed in []
+        const delimiters = delimiterLine
+          .match(/\[.*?\]/g)! // extract all [delim] groups
+          .map((d) => d.slice(1, -1).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) // escape regex specials
+
+        delimiterPattern = new RegExp(delimiters.join('|'), 'g')
       } else {
-        // fallback for single char delimiter
+        // Single char delimiter case
         const escapedDelimiter = delimiterLine.replace(
           /[.*+?^${}()|[\]\\]/g,
           '\\$&',
